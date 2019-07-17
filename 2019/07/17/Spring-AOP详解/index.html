@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Spring AOP详解 | 倪大哥的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1、AOP 作用？我们学Java面向对象的时候，如果代码重复了怎么办啊？？可以分成下面几个步骤：  1：抽取成方法 2：抽取类  抽取成类的方式我们称之为：纵向抽取  通过继承的方式实现纵向抽取  但是，我们现在的办法不行：即使抽取成类还是会出现重复的代码，因为这些逻辑(开始、结束、提交事务)依附在我们业务类的方法逻辑中！  现在纵向抽取的方式不行了，AOP的理念：就是将分散在各个业务逻辑代码中相">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring AOP详解">
+<meta property="og:url" content="http://yoursite.com/2019/07/17/Spring-AOP详解/index.html">
+<meta property="og:site_name" content="倪大哥的博客">
+<meta property="og:description" content="1、AOP 作用？我们学Java面向对象的时候，如果代码重复了怎么办啊？？可以分成下面几个步骤：  1：抽取成方法 2：抽取类  抽取成类的方式我们称之为：纵向抽取  通过继承的方式实现纵向抽取  但是，我们现在的办法不行：即使抽取成类还是会出现重复的代码，因为这些逻辑(开始、结束、提交事务)依附在我们业务类的方法逻辑中！  现在纵向抽取的方式不行了，AOP的理念：就是将分散在各个业务逻辑代码中相">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015018892">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015018893">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015018904?w=797&h=726">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015018905">
+<meta property="og:updated_time" content="2019-07-17T12:39:03.128Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring AOP详解">
+<meta name="twitter:description" content="1、AOP 作用？我们学Java面向对象的时候，如果代码重复了怎么办啊？？可以分成下面几个步骤：  1：抽取成方法 2：抽取类  抽取成类的方式我们称之为：纵向抽取  通过继承的方式实现纵向抽取  但是，我们现在的办法不行：即使抽取成类还是会出现重复的代码，因为这些逻辑(开始、结束、提交事务)依附在我们业务类的方法逻辑中！  现在纵向抽取的方式不行了，AOP的理念：就是将分散在各个业务逻辑代码中相">
+<meta name="twitter:image" content="https://segmentfault.com/img/remote/1460000015018892">
+  
+    <link rel="alternate" href="/atom.xml" title="倪大哥的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">倪大哥的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">欢迎常来！！！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="w-Spring-AOP详解" class="article article-type-w" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/17/Spring-AOP详解/" class="article-date">
+  <time datetime="2019-07-17T11:53:23.462Z" itemprop="datePublished">2019-07-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Spring AOP详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1、AOP-作用？"><a href="#1、AOP-作用？" class="headerlink" title="1、AOP 作用？"></a>1、AOP 作用？</h2><p>我们学Java面向对象的时候，如果代码重复了怎么办啊？？可以分成下面几个步骤：</p>
+<ul>
+<li>1：抽取成方法</li>
+<li>2：抽取类</li>
+</ul>
+<p>抽取成类的方式我们称之为：<strong>纵向抽取</strong></p>
+<ul>
+<li>通过继承的方式实现纵向抽取</li>
+</ul>
+<p>但是，我们现在的办法不行：即使抽取成类还是会出现重复的代码，因为这些逻辑(开始、结束、提交事务)<strong>依附在我们业务类的方法逻辑中</strong>！</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015018892" alt="img"></p>
+<p>现在纵向抽取的方式不行了，AOP的理念：就是将<strong>分散在各个业务逻辑代码中相同的代码通过横向切割的方式</strong>抽取到一个独立的模块中！</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015018893" alt="img"></p>
+<h2 id="2、AOP-原理"><a href="#2、AOP-原理" class="headerlink" title="2、AOP 原理"></a>2、AOP 原理</h2><p>​    AOP底层原理就是基于动态代理！！</p>
+<p>​    Spring中动态代理分为两种：</p>
+<p>​    1、JDK 动态代理</p>
+<p>​    2、cglib动态代理</p>
+<p>​        JDK动态代理是需要实现某个接口，而我们的类未必全部都有接口，于是就有了cglib动态代理。</p>
+<p>​        <strong>·</strong> cglib代理生成的动态代理对象是目标类的子类</p>
+<p>​        · Spring AOP 默认使用JDK 动态代理，如果代理的类没有接口则会使用cglib代理</p>
+<p>​        两种方式的应用选择：如果是单例最好使用cglib，多例最好选择JDK代理。因为JDK在创建代理对象时的性能高于cglib代理，而生成代理对象的运行时性能却比cglib低。</p>
+<p>看到这里，将AOP原理总结成一句话：<strong>将相同逻辑的重复代码横向抽取出来，使用动态代理技术将这些重复代码织入到目标对象方法中，实现和原来一样的功能。</strong></p>
+<h2 id="3、AOP的术语"><a href="#3、AOP的术语" class="headerlink" title="3、AOP的术语"></a>3、AOP的术语</h2><p>​    <strong>Join point(连接点):</strong>Spring  AOP是基于动态代理的，所以是方法拦截的，每个成员方法都可以称之为连接点</p>
+<p><strong>Point cut(切入点)：</strong>我们具体定位到某一个方法，这个方法就称之为切入点</p>
+<p><strong>Advice（通知/增强）:</strong>表示添加到切点的一段逻辑代码，并定位连接点的方位信息。简单来说，就是定义了干什么，具体是在那干。Spring AOP 提供了5种Advice类型：Before Advice（前置通知）、after  returning advice、after throwing advice、after finally advice、around advice。</p>
+<p><strong>Weaving（织入）：</strong>把advice添加到目标类的具体连接点的过程</p>
+<p><strong>Introduction（引介）：</strong>允许我们向现有的类添加新的方法或属性，是一种特殊的增强</p>
+<p><strong>Aspect（切面）：</strong>切面由切入点和advice 组成，它既包括了横切逻辑的定义，也包括了连接点的定义</p>
+<h2 id="4、基于注解和命名空间的AOP编程"><a href="#4、基于注解和命名空间的AOP编程" class="headerlink" title="4、基于注解和命名空间的AOP编程"></a>4、基于注解和命名空间的AOP编程</h2><p>​    增强注解：</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015018904?w=797&h=726" alt="img"></p>
+<p><img src="https://segmentfault.com/img/remote/1460000015018905" alt="img"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/17/Spring-AOP详解/" data-id="cjy78frib00038gfdklsewr7k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/17/ConcurrentHashMap原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java基础/">Java基础</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java基础/" style="font-size: 10px;">Java基础</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/07/17/Spring-AOP详解/">Spring AOP详解</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/17/ConcurrentHashMap原理/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/17/Hexo常见注意事项/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/17/HashMap/">HashMap实现原理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/14/newpage/">newpage</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
