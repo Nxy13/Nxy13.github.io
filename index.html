@@ -66,6 +66,37 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ConcurrentHashMap原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/17/ConcurrentHashMap原理/" class="article-date">
+  <time datetime="2019-07-17T09:16:05.027Z" itemprop="datePublished">2019-07-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title:  ConcurrentHashMap实现原理</p>
+<p>1、为什么在高并发下使用ConcurrentHashMap？</p>
+<p>​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry；</p>
+<p>​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果也访问该hashtable，那么会进入阻塞或者轮训状态；</p>
+<p>​    JDK1.8之前使用分段锁segment将hashmap分为多个segnment，每个segment分配一个锁，当一个线程占用锁访问其中一段数据时，其他数据同时能被其他线程访问；JDK1.8中采用CAS+synchronized锁实现同步。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/17/ConcurrentHashMap原理/" data-id="cjy72ccvy0000skfdjuvm0b82" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Hexo常见注意事项" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/07/17/Hexo常见注意事项/" class="article-date">
@@ -83,7 +114,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/17/Hexo常见注意事项/" data-id="cjy7153wd000424fdg4scdzpx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/17/Hexo常见注意事项/" data-id="cjy72ccwj0006skfd8bti70ti" class="article-share-link">Share</a>
       
       
     </footer>
@@ -145,7 +176,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/17/HashMap/" data-id="cjy7153vx000024fd6svsldbv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/17/HashMap/" data-id="cjy72ccw80002skfded14zjla" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java基础/">Java基础</a></li></ul>
@@ -184,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/14/newpage/" data-id="cjy7153w7000224fd33icnxjt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/14/newpage/" data-id="cjy72ccwi0005skfd1udayvij" class="article-share-link">Share</a>
       
       
     </footer>
@@ -233,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/14/hello-world/" data-id="cjy7153wj000524fdks824frm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/14/hello-world/" data-id="cjy72ccwc0003skfd3t3goxco" class="article-share-link">Share</a>
       
       
     </footer>
@@ -286,6 +317,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/07/17/ConcurrentHashMap原理/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2019/07/17/Hexo常见注意事项/">(no title)</a>
