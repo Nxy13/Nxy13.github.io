@@ -5,19 +5,19 @@
   
 
   
-  <title>newpage | 倪大哥的博客</title>
+  <title>倪大哥的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="草稿">
+  <meta name="description" content="title:  ConcurrentHashMap实现原理 1、为什么在高并发下使用ConcurrentHashMap？ ​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry； ​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果">
 <meta property="og:type" content="article">
-<meta property="og:title" content="newpage">
-<meta property="og:url" content="http://yoursite.com/2019/07/14/newpage/index.html">
+<meta property="og:title" content="倪大哥的博客">
+<meta property="og:url" content="http://yoursite.com/ConcurrentHashMap原理/index.html">
 <meta property="og:site_name" content="倪大哥的博客">
-<meta property="og:description" content="草稿">
+<meta property="og:description" content="title:  ConcurrentHashMap实现原理 1、为什么在高并发下使用ConcurrentHashMap？ ​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry； ​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-14T10:59:36.276Z">
+<meta property="og:updated_time" content="2019-07-17T10:28:36.257Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="newpage">
-<meta name="twitter:description" content="草稿">
+<meta name="twitter:title" content="倪大哥的博客">
+<meta name="twitter:description" content="title:  ConcurrentHashMap实现原理 1、为什么在高并发下使用ConcurrentHashMap？ ​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry； ​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果">
   
     <link rel="alternate" href="/atom.xml" title="倪大哥的博客" type="application/atom+xml">
   
@@ -68,34 +68,28 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-newpage" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-ConcurrentHashMap原理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/07/14/newpage/" class="article-date">
-  <time datetime="2019-07-14T10:59:36.000Z" itemprop="datePublished">2019-07-14</time>
+    <a href="/ConcurrentHashMap原理/" class="article-date">
+  <time datetime="2019-07-17T09:16:05.027Z" itemprop="datePublished">2019-07-17</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      newpage
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>草稿</p>
+        <h1 id="title-ConcurrentHashMap实现原理"><a href="#title-ConcurrentHashMap实现原理" class="headerlink" title="title:  ConcurrentHashMap实现原理"></a>title:  ConcurrentHashMap实现原理</h1><hr>
+<p>1、为什么在高并发下使用ConcurrentHashMap？</p>
+<p>​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry；</p>
+<p>​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果也访问该hashtable，那么会进入阻塞或者轮训状态；</p>
+<p>​    JDK1.8之前使用分段锁segment将hashmap分为多个segnment，每个segment分配一个锁，当一个线程占用锁访问其中一段数据时，其他数据同时能被其他线程访问；JDK1.8中采用CAS+synchronized锁实现同步。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/14/newpage/" data-id="cjy73s2bv0004bofd2fgs5cvd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/ConcurrentHashMap原理/" data-id="cjy741rue0000i8fd5ooubu28" class="article-share-link">Share</a>
       
       
     </footer>
@@ -104,19 +98,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/07/17/HashMap/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          HashMap实现原理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/14/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/Hexo常见注意事项/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title"></div>
     </a>
   
 </nav>
@@ -167,23 +152,23 @@
       <ul>
         
           <li>
-            <a href="/2019/07/17/ConcurrentHashMap原理/">(no title)</a>
+            <a href="/ConcurrentHashMap原理/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2019/07/17/Hexo常见注意事项/">(no title)</a>
+            <a href="/Hexo常见注意事项/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2019/07/17/HashMap/">HashMap实现原理</a>
+            <a href="/HashMap/">HashMap实现原理</a>
           </li>
         
           <li>
-            <a href="/2019/07/14/newpage/">newpage</a>
+            <a href="/newpage/">newpage</a>
           </li>
         
           <li>
-            <a href="/2019/07/14/hello-world/">Hello World</a>
+            <a href="/hello-world/">Hello World</a>
           </li>
         
       </ul>
