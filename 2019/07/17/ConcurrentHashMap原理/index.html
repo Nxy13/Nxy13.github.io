@@ -7,17 +7,17 @@
   
   <title>倪大哥的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title:  ConcurrentHashMap实现原理 1、为什么在高并发下使用ConcurrentHashMap？ ​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry； ​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果">
+  <meta name="description" content="title：ConcurrentHashMap实现原理 1、为什么在高并发下使用ConcurrentHashMap？ ​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry； ​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果也">
 <meta property="og:type" content="article">
 <meta property="og:title" content="倪大哥的博客">
 <meta property="og:url" content="http://yoursite.com/2019/07/17/ConcurrentHashMap原理/index.html">
 <meta property="og:site_name" content="倪大哥的博客">
-<meta property="og:description" content="title:  ConcurrentHashMap实现原理 1、为什么在高并发下使用ConcurrentHashMap？ ​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry； ​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果">
+<meta property="og:description" content="title：ConcurrentHashMap实现原理 1、为什么在高并发下使用ConcurrentHashMap？ ​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry； ​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果也">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-17T10:28:36.257Z">
+<meta property="og:updated_time" content="2019-07-17T10:48:49.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="倪大哥的博客">
-<meta name="twitter:description" content="title:  ConcurrentHashMap实现原理 1、为什么在高并发下使用ConcurrentHashMap？ ​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry； ​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果">
+<meta name="twitter:description" content="title：ConcurrentHashMap实现原理 1、为什么在高并发下使用ConcurrentHashMap？ ​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry； ​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果也">
   
     <link rel="alternate" href="/atom.xml" title="倪大哥的博客" type="application/atom+xml">
   
@@ -80,7 +80,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="title-ConcurrentHashMap实现原理"><a href="#title-ConcurrentHashMap实现原理" class="headerlink" title="title:  ConcurrentHashMap实现原理"></a>title:  ConcurrentHashMap实现原理</h1><hr>
+        <hr>
+<h2 id="title：ConcurrentHashMap实现原理"><a href="#title：ConcurrentHashMap实现原理" class="headerlink" title="title：ConcurrentHashMap实现原理"></a>title：ConcurrentHashMap实现原理</h2><hr>
 <p>1、为什么在高并发下使用ConcurrentHashMap？</p>
 <p>​    A: hashmap在高并发环境下执行put操作会造成Entry链表形成环形数据结构，从而导致next节点永远不为空，因而产生死循环获取Entry；</p>
 <p>​    hashtable虽然是线程安全的，但是效率低下，当一个线程访问hashtable的同步方法时，其他线程如果也访问该hashtable，那么会进入阻塞或者轮训状态；</p>
